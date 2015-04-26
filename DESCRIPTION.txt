@@ -1,0 +1,7 @@
+Title: BlackJack Dealer Simulation
+Author: Mike Cahill
+Author URL: cahillmj.shinyapps.io
+License: GPL-3
+DisplayMode: Showcase
+Tags: getting-started
+Type: Shiny
