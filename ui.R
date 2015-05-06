@@ -6,9 +6,9 @@ shinyUI(pageWithSidebar(
   headerPanel('Expected Dealer Score in Blackjack'),
   sidebarPanel(
     selectInput('card',"Dealer's face-up card",
-                c('A','1','2','3','4','5','6','7','8','9','10','J','Q','K')),
+                c('A','2','3','4','5','6','7','8','9','10','J','Q','K')),
     numericInput('trials','Number of Trials to run',10,min=10,max=10000),
-    submitButton('Submit')
+    actionButton('goButton','Go!')
     ),
   mainPanel(
     h3('Simulation Results'),

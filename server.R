@@ -16,6 +16,7 @@ score_hand <- function(hand){
     }
     if (score > 21 && aces > 0){
       score <- score - 10
+      aces <- aces - 1
     }
   } 
   score
@@ -23,7 +24,7 @@ score_hand <- function(hand){
 simulate <- function(card, trials){
    scores <- vector(mode="numeric")
    for (i in 1:trials){
-     deck <- c(rep('A',24),rep('1',24),rep('2',24),rep('3',24),rep('4',24),rep('5',24),rep('6',24), 
+     deck <- c(rep('A',24),rep('2',24),rep('3',24),rep('4',24),rep('5',24),rep('6',24), 
                rep('7',24),rep('8',24),rep('9',24),rep('10',24),rep('J',24),rep('Q',24),rep('K',24))
     deck <- deck[-match(card,deck)]
     hole_card <- sample(deck,1)
@@ -46,9 +47,12 @@ simulate <- function(card, trials){
 
 shinyServer(
   function(input,output){ 
-    scores <- reactive({simulate(input$card,input$trials)})
+    scores <- reactive({
+                    input$goButton
+                    isolate(
+                    simulate(input$card,input$trials))})
     output$hist <- renderPlot({qplot(scores(), xlab = 'Dealer Score',         
-                    ylab = 'Score Proportion',ggtitle = 'Distribution of Simulated Dealer Scores', 
+                    ylab = 'Score Frequency',ggtitle = 'Distribution of Simulated Dealer Scores', 
                     binwidth = .2) + scale_x_continuous(breaks=17:22,labels = c('17','18','19','20','21','BUST'))}) 
     output$bust_rate <- renderPrint({sum(scores() == 22)/length(scores())})
     output$mean <- renderPrint({mean(scores()[scores() != 22])})
